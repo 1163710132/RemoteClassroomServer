@@ -1,0 +1,148 @@
+[
+    {
+        "path": "/login",
+        "params": {
+            "username": "string",
+            "password": "string"
+        },
+        "return": "boolean"
+    },
+    {
+        "path": "/info",
+        "params": {
+            "user": "number"
+        },
+        "return": {
+            "name": "string",
+            "avatar": "string"
+        }
+    },
+    {
+        "path": "/courses",
+        "params": {
+            "user": "number"
+        },
+        "return": ["course"]
+    },
+    {
+        "path": "/chat/records/send/user",
+        "params": {
+            "user": "number",
+            "begin": "instant",
+            "end": "instant"
+        },
+        "return": ["chatRecord"]
+    },
+    {
+        "path": "/chat/records/receive/group",
+        "params": {
+            "target": "number",
+            "begin": "instant",
+            "end": "instant"
+        },
+        "return": ["chatRecord"]
+    },
+    {
+        "path": "/chat/records/receive/user",
+        "params": {
+            "target": "number",
+            "begin": "instant",
+            "end": "instant"
+        },
+        "return": ["chatRecord"]
+    },
+    {
+        "path": "/chat/records/receive/user",
+        "params": {
+            "target": "number",
+            "begin": "instant",
+            "end": "instant"
+        },
+        "return": ["chatRecord"]
+    },
+    {
+        "path": "/chat/send",
+        "params": {
+            "user": "number",
+            "target": "number",
+            "targetGroup": "number",
+            "content": "string"
+        },
+        "return": "instant"
+    },
+    {
+        "path": "/homework",
+        "params": {
+            "group": "number"
+        },
+        "return": ["homework"]
+    },
+    {
+        "path": "/homework/entry",
+        "params": {
+            "homework": "number"
+        },
+        "return": ["homeworkEntry"]
+    },
+    {
+        "path": "/question",
+        "params": {
+            "question": "number"
+        },
+        "return": "question"
+    },
+    {
+        "path": "/answer/submit",
+        "params": {
+            "user": "number",
+            "question": "number"
+        },
+        "return": "instant"
+    },
+    {
+        "path": "/periods",
+        "params": {
+            "begin": "instant",
+            "end": "instant"
+        },
+        "return": ["period"]
+    },
+    {
+        "path": "/score/group/total",
+        "params": {
+            "user": "number",
+            "group": "number"
+        },
+        "return": "totalScore"
+    },
+    {
+        "path": "/score/course/total",
+        "params": {
+            "user": "number",
+            "course": "number"
+        },
+        "return": ["totalScore"]
+    },
+    {
+        "path": "/score/all",
+        "params": {
+            "user": "number"
+        },
+        "return": ["totalScore"]
+    },
+    {
+        "path": "/score/detail",
+        "params": {
+            "score": "number"
+        },
+        "return": ["score"]
+    },
+    {
+        "path": "/score/course/detail",
+        "params": {
+            "user": "number",
+            "course": "number"
+        },
+        "return": ["score"]
+    }
+]
