@@ -8,6 +8,14 @@
         "return": "number"
     },
     {
+        "path": "/account/register",
+        "params": {
+            "username": "string",
+            "password": "string"
+        },
+        "return": "number"
+    },
+    {
         "path": "/account/logout",
         "params": {
             "user": "number"

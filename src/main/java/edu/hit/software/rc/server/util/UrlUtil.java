@@ -13,7 +13,9 @@ import java.net.URL;
 import java.net.URLConnection;
 import java.net.URLEncoder;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.*;
 
 public class UrlUtil {
     private final Gson gson;
@@ -50,7 +52,7 @@ public class UrlUtil {
         }
     }
 
-    public <T> T postBlock(String url, Map<String, Object> params, Class<T> type) throws IOException{
+    public <T> T post(String url, Map<String, Object> params, Class<T> type) throws IOException{
         URLConnection urlConnection = new URL(url).openConnection();
         urlConnection.connect();
         urlConnection.setDoInput(true);
@@ -64,10 +66,53 @@ public class UrlUtil {
         return result;
     }
 
-    public <T> T getBlock(String url, Class<T> type) throws IOException{
-        URLConnection urlConnection = new URL(url).openConnection();
+    public <T> T get(String url, Map<String, Object> params, Class<T> type) throws IOException{
+        URLConnection urlConnection = new URL(createGet(url, params)).openConnection();
         urlConnection.connect();
         T result = gson.fromJson(new InputStreamReader(urlConnection.getInputStream()), type);
         return result;
+    }
+
+    public <T> Future<T> postAsync(String url, Map<String, Object> params, Class<T> type) throws IOException{
+        var task = new FutureTask<>(()->post(url, params, type));
+        new Thread(task).run();
+        return task;
+    }
+
+    public <T> Future<T> getAsync(String url, Map<String, Object> params, Class<T> type) throws IOException{
+        var task = new FutureTask<>(()->get(url, params, type));
+        new Thread(task).run();
+        return task;
+    }
+
+    public MapBuilder<String, Object> paramsBuilder(){
+        return new MapBuilder<>();
+    }
+
+    public static class MapBuilder<K, V>{
+        private Map<K, V> map;
+
+        public MapBuilder(){
+            map = new HashMap<>();
+        }
+
+        public MapBuilder<K, V> put(K key, V value){
+            map.put(key, value);
+            return this;
+        }
+
+        public Map<K, V> build(){
+            var map = this.map;
+            this.map = null;
+            return map;
+        }
+    }
+
+    public static void main(String[] args) throws Exception {
+        UrlUtil urlUtil = new UrlUtil();
+        var id = urlUtil.get("http://localhost:8080/account/register",
+                urlUtil.paramsBuilder().put("username", "chenjs")
+                        .put("password", "1144").build(), long.class);
+        System.out.println(id);
     }
 }

@@ -40,6 +40,17 @@ public class AccountController implements Controller {
         setUid(-1, session);
         return true;
     }
+    @RequestMapping("/register")
+    public long register(String username, String password){
+        LocalLoginFields llf = new LocalLoginFields();
+        llf.setUsername(username);
+        llf.setPassword(password);
+        if(accountService.createAccount(llf) > 0){
+            return llf.getId();
+        }else{
+            return -1;
+        }
+    }
     @RequestMapping("/current")
     public long current(HttpSession session){
         return getUid(session);

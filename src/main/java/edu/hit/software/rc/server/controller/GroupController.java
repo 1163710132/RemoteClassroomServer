@@ -1,7 +1,6 @@
 package edu.hit.software.rc.server.controller;
 
 import edu.hit.software.rc.server.entity.MemberGroup;
-import edu.hit.software.rc.server.permission.Permissions;
 import edu.hit.software.rc.server.service.CourseService;
 import edu.hit.software.rc.server.service.GroupService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,38 +30,22 @@ public class GroupController implements Controller {
     @RequestMapping("/members")
     public List members(long group){
         long course = groupService.getCourse(group);
-        if(getSubject().isPermitted(Permissions.ofCourse(course))){
-            return groupService.members(group);
-        }else{
-            return List.of();
-        }
+        return groupService.members(group);
     }
     @RequestMapping("/join")
     public boolean join(int group, int user){
-        if(getSubject().isPermitted(Permissions.ofGroup(group))){
-            return groupService.addMember(user, group);
-        }else{
-            return false;
-        }
+        return groupService.addMember(user, group);
     }
     @RequestMapping("/create")
     public long create(String name, long course){
         long manager = courseService.getCourse(course).getManager();
-        if(getSubject().isPermitted(Permissions.ofGroup(manager))){
-            MemberGroup group = groupService.createGroup(name, course);
-            return group.getId();
-        }else{
-            return -1;
-        }
+        MemberGroup group = groupService.createGroup(name, course);
+        return group.getId();
     }
     @RequestMapping("/secede")
     public boolean secede(int group, int user){
         long course = groupService.getCourse(group);
         long manager = courseService.getCourse(course).getManager();
-        if(getSubject().isPermitted(Permissions.ofGroup(manager))){
-            return groupService.removeMember(user, group);
-        }else{
-            return false;
-        }
+        return groupService.removeMember(user, group);
     }
 }
