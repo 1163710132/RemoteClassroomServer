@@ -18,8 +18,8 @@ public interface HomeworkMapper {
             "VALUES (#{publisher}, #{target}, #{published}, #{begin}, #{end}, #{canceled}, #{name}, #{rater})")
     int insertHomework(Homework homework);
 
-    @Select("SELECT ID FROM REMOTE_CLASSROOM.HOMEWORK WHERE TARGET_GROUP = #{targetGroup}")
-    List<Long> selectHomeworkByTargetGroup(@Param("targetGroup") long targetGroup);
+    @Select("SELECT * FROM REMOTE_CLASSROOM.HOMEWORK WHERE TARGET_GROUP = #{targetGroup}")
+    List<Homework> getHomeworkByTargetGroup(@Param("targetGroup") long targetGroup);
 
     @Update("UPDATE REMOTE_CLASSROOM.HOMEWORK SET CANCELED = TRUE WHERE ID = #{id}")
     int cancelHomework(@Param("id") long id);

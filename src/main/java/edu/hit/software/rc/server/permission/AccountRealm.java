@@ -1,7 +1,8 @@
-package edu.hit.software.rc.server.permission;
+/*package edu.hit.software.rc.server.permission;
 
 import edu.hit.software.rc.server.entity.Account;
 import edu.hit.software.rc.server.entity.GroupEntry;
+import edu.hit.software.rc.server.entity.LocalLoginFields;
 import edu.hit.software.rc.server.mapper.AccountMapper;
 import edu.hit.software.rc.server.mapper.CourseMapper;
 import edu.hit.software.rc.server.mapper.GroupEntryMapper;
@@ -51,7 +52,7 @@ public class AccountRealm extends AuthorizingRealm {
 
     @Override
     protected AuthenticationInfo doGetAuthenticationInfo(AuthenticationToken token) throws AuthenticationException {
-        String strId = (String)token.getPrincipal();
+        String username = (String) token.getPrincipal();
         Account account = new Account();
         account.setStrId(strId);
         Long accountId = accountMapper.getAccountIdByStrId(strId);
@@ -59,4 +60,4 @@ public class AccountRealm extends AuthorizingRealm {
         SimpleAuthenticationInfo simpleAuthenticationInfo = new SimpleAuthenticationInfo(account, String.valueOf(accountMapper.countAccountsById(strId)), getName());
         return simpleAuthenticationInfo;
     }
-}
+}*/

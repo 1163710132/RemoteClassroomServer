@@ -1,9 +1,13 @@
 package edu.hit.software.rc.server.controller;
 
+import edu.hit.software.rc.server.entity.Question;
 import edu.hit.software.rc.server.service.HomeworkService;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.SessionAttribute;
+
+import javax.servlet.http.HttpSession;
 
 @RestController
 @EnableAutoConfiguration
@@ -15,16 +19,13 @@ public class QuestionController implements Controller {
         this.homeworkService = homeworkService;
     }
 
-    @RequestMapping("/pull")
+    @RequestMapping("")
     public String pull(long question){
         return homeworkService.getQuestion(question).getContent();
     }
+
     @RequestMapping("/create")
-    public long create(String content){
-        if(getSubject().isAuthenticated()){
-            return homeworkService.createQuestion(getAccount().getId(), content).getId();
-        }else{
-            return -1;
-        }
+    public Question create(String content , HttpSession session){
+        return homeworkService.createQuestion(getUid(session), content);
     }
 }

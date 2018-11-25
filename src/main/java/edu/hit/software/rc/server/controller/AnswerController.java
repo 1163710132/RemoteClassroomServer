@@ -1,6 +1,5 @@
 package edu.hit.software.rc.server.controller;
 
-import edu.hit.software.rc.server.permission.Permissions;
 import edu.hit.software.rc.server.service.HomeworkService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
@@ -21,12 +20,8 @@ public class AnswerController implements Controller {
         this.homeworkService = homeworkService;
     }
 
-    @RequestMapping("/commit")
-    public long commit(long question, long publisher, String answer){
-        if(getSubject().isPermitted(Permissions.ofAccount(publisher))){
-            return homeworkService.createAnswer(publisher, question, answer).getId();
-        }else{
-            return -1;
-        }
+    @RequestMapping("/submit")
+    public Instant submit(long question, long user, String answer){
+        return homeworkService.createAnswer(user, question, answer).getTime();
     }
 }

@@ -1,14 +1,26 @@
 [
     {
-        "path": "/login",
+        "path": "/account/login",
         "params": {
             "username": "string",
             "password": "string"
         },
+        "return": "number"
+    },
+    {
+        "path": "/account/logout",
+        "params": {
+            "user": "number"
+        },
         "return": "boolean"
     },
     {
-        "path": "/info",
+        "path": "/account/current",
+        "params": {},
+        "return": "number"
+    },
+    {
+        "path": "/account/info",
         "params": {
             "user": "number"
         },
@@ -18,7 +30,7 @@
         }
     },
     {
-        "path": "/courses",
+        "path": "/course/courses",
         "params": {
             "user": "number"
         },
@@ -52,15 +64,6 @@
         "return": ["chatRecord"]
     },
     {
-        "path": "/chat/records/receive/user",
-        "params": {
-            "target": "number",
-            "begin": "instant",
-            "end": "instant"
-        },
-        "return": ["chatRecord"]
-    },
-    {
         "path": "/chat/send",
         "params": {
             "user": "number",
@@ -71,14 +74,14 @@
         "return": "instant"
     },
     {
-        "path": "/homework",
+        "path": "/homework/homework",
         "params": {
             "group": "number"
         },
         "return": ["homework"]
     },
     {
-        "path": "/homework/entry",
+        "path": "/homework/entries",
         "params": {
             "homework": "number"
         },
@@ -102,18 +105,11 @@
     {
         "path": "/periods",
         "params": {
+            "group": "number",
             "begin": "instant",
             "end": "instant"
         },
         "return": ["period"]
-    },
-    {
-        "path": "/score/group/total",
-        "params": {
-            "user": "number",
-            "group": "number"
-        },
-        "return": "totalScore"
     },
     {
         "path": "/score/course/total",
@@ -121,7 +117,7 @@
             "user": "number",
             "course": "number"
         },
-        "return": ["totalScore"]
+        "return": "totalScore"
     },
     {
         "path": "/score/all",

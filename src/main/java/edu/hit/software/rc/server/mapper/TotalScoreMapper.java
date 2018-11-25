@@ -11,7 +11,8 @@ import java.util.List;
 @Mapper
 public interface TotalScoreMapper {
     TotalScore getTotalScoreById(long id);
-    Long selectTotalScore(long course, long student);
-    List<Long> selectTotalScores(long course);
+    TotalScore getTotalScore(long course, long student);
+    List<TotalScore> getTotalScoresByCourse(long course);
+    List<TotalScore> getTotalScoresByAccount(long account);
     long insertTotalScore(long course, long student, long method, BigDecimal score);
 }

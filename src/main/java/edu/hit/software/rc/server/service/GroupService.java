@@ -57,4 +57,8 @@ public class GroupService {
     public List<GroupEntry> members(long groupId){
         return groupEntryMapper.getEntriesByMemberGroup(groupId);
     }
+
+    public List<GroupEntry> groups(long accountId){
+        return groupEntryMapper.getEntriesByMember(accountId);
+    }
 }

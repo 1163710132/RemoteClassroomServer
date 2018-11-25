@@ -16,7 +16,7 @@ public interface HomeworkEntryMapper {
     HomeworkEntry getEntryByHomeworkAndQIndex(@Param("homework") long homework, @Param("qIndex") int qIndex);
 
     @Select("SELECT * FROM REMOTE_CLASSROOM.HOMEWORK_ENTRY WHERE HOMEWORK = #{homework}")
-    List<HomeworkEntry> selectEntriesByHomework(@Param("homework") long homework);
+    List<HomeworkEntry> getEntriesByHomework(@Param("homework") long homework);
 
     @Insert("INSERT INTO REMOTE_CLASSROOM.HOMEWORK_ENTRY(HOMEWORK, Q_INDEX, QUESTION) " +
             "VALUES (#{homework}, #{qIndex}, #{question})")

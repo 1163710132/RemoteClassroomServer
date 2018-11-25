@@ -1,27 +1,23 @@
 package edu.hit.software.rc.server.controller;
 
 import edu.hit.software.rc.server.entity.Account;
-import edu.hit.software.rc.server.permission.Permissions;
-import org.apache.shiro.SecurityUtils;
-import org.apache.shiro.subject.Subject;
+
+import javax.servlet.http.HttpSession;
 
 public interface Controller {
-    default Subject getSubject(){
-        return SecurityUtils.getSubject();
+    public static final String UID = "uid";
+
+    default long getUid(HttpSession session){
+        Long uid = (Long)session.getAttribute(UID);
+        return uid == null ? -1 : uid;
     }
-    default Account getAccount(){
-         return (Account) getSubject().getPrincipal();
+    default void setUid(long uid, HttpSession session){
+        session.setAttribute(UID, uid == -1 ? null : uid);
     }
-    default boolean requiresAuthenticated(){
-        return getSubject().isAuthenticated();
+    default boolean requiresAuthenticated(HttpSession session){
+        return getUid(session) != -1;
     }
-    default boolean requiresAccount(long accountId){
-        return getSubject().isPermitted(Permissions.ofAccount(accountId));
-    }
-    default boolean requiresGroup(long groupId){
-        return getSubject().isPermitted(Permissions.ofGroup(groupId));
-    }
-    default boolean requiresCourse(long courseId){
-        return getSubject().isPermitted(Permissions.ofCourse(courseId));
+    default boolean requiresAccount(long uid, HttpSession session){
+        return getUid(session) == uid;
     }
 }

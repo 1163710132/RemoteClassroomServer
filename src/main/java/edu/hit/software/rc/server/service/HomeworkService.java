@@ -114,12 +114,16 @@ public class HomeworkService {
         return homeworkMapper.getHomeworkById(homeworkId);
     }
 
+    public List<Homework> getHomeworkByGroup(long groupId){
+        return homeworkMapper.getHomeworkByTargetGroup(groupId);
+    }
+
     public HomeworkEntry getHomeworkEntry(long homeworkId, int qIndex){
         return homeworkEntryMapper.getEntryByHomeworkAndQIndex(homeworkId, qIndex);
     }
 
-    public List<HomeworkEntry> selectHomeworkEntries(long homeworkId){
-        return homeworkEntryMapper.selectEntriesByHomework(homeworkId);
+    public List<HomeworkEntry> getHomeworkEntries(long homeworkId){
+        return homeworkEntryMapper.getEntriesByHomework(homeworkId);
     }
 
     public boolean cancelHomework(long homeworkId){

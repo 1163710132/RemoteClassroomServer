@@ -2,17 +2,18 @@ package edu.hit.software.rc.server.controller;
 
 import edu.hit.software.rc.server.entity.Account;
 import edu.hit.software.rc.server.entity.Course;
-import edu.hit.software.rc.server.permission.Permissions;
+import edu.hit.software.rc.server.entity.GroupEntry;
 import edu.hit.software.rc.server.service.AccountService;
 import edu.hit.software.rc.server.service.CourseService;
-import org.apache.shiro.authz.AuthorizationException;
-import org.apache.shiro.subject.Subject;
+import edu.hit.software.rc.server.service.GroupService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.servlet.http.HttpSession;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @RestController
 @EnableAutoConfiguration
@@ -20,51 +21,45 @@ import java.util.List;
 public class CourseController implements Controller {
     private final AccountService accountService;
     private final CourseService courseService;
+    private final GroupService groupService;
 
     @Autowired
-    public CourseController(AccountService accountService, CourseService courseService) {
+    public CourseController(AccountService accountService, CourseService courseService, GroupService groupService) {
         this.accountService = accountService;
         this.courseService = courseService;
+        this.groupService = groupService;
     }
 
-    @RequestMapping("/info")
-    public String info(){
-        return "";
+    @RequestMapping("/courses")
+    public List<Course> courses(long uid, HttpSession session){
+        if(requiresAccount(uid, session)){
+            return groupService.groups(uid)
+                    .stream()
+                    .mapToLong(GroupEntry::getCourse)
+                    .distinct()
+                    .mapToObj(courseService::getCourse)
+                    .collect(Collectors.toList());
+        }else{
+            return List.of();
+        }
     }
     @RequestMapping("/members")
     public List members(long course){
-        if(getSubject().isPermitted(Permissions.ofCourse(course))){
-            return courseService.getMembers(course);
-        }else{
-            return List.of();
-        }
+        return courseService.getMembers(course);
+
+
     }
     @RequestMapping("/groups")
     public List groups(long course){
-        if(getSubject().isPermitted(Permissions.ofCourse(course))){
-            return courseService.getGroups(course);
-        }else{
-            return List.of();
-        }
+        return courseService.getGroups(course);
     }
     @RequestMapping(value = "/create")
-    public long create(String name){
-        Subject subject = getSubject();
-        if(subject.isAuthenticated()){
-            Account account = (Account) subject.getPrincipal();
-            Course course = courseService.createCourse(name, account.getId());
-            return course.getId();
-        }else{
-            return -1;
-        }
+    public long create(String name, HttpSession session){
+        Course course = courseService.createCourse(name, getUid(session));
+        return course.getId();
     }
     @RequestMapping("/cancel")
     public boolean cancel(int course){
-        long manager = courseService.getCourse(course).getManager();
-        if(getSubject().isPermitted(Permissions.ofGroup(manager))){
-            return courseService.cancelCourse(course);
-        }else{
-            return false;
-        }
+        return courseService.cancelCourse(course);
     }
 }

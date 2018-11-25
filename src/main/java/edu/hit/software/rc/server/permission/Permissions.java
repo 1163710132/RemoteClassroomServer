@@ -1,4 +1,4 @@
-package edu.hit.software.rc.server.permission;
+/*package edu.hit.software.rc.server.permission;
 
 public abstract class Permissions {
     public static final String ACCOUNT = "account:";
@@ -17,4 +17,4 @@ public abstract class Permissions {
     public static String ofCourse(long courseId){
         return COURSE + String.valueOf(courseId);
     }
-}
+}*/

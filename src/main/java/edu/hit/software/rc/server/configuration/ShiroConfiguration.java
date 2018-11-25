@@ -1,4 +1,4 @@
-package edu.hit.software.rc.server.configuration;
+/*package edu.hit.software.rc.server.configuration;
 
 import edu.hit.software.rc.server.permission.AccountRealm;
 import org.apache.shiro.spring.web.config.DefaultShiroFilterChainDefinition;
@@ -22,4 +22,4 @@ public class ShiroConfiguration {
     public ShiroFilterChainDefinition shiroFilterChainDefinition(){
         return new DefaultShiroFilterChainDefinition();
     }
-}
+}*/
